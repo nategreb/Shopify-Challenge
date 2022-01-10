@@ -1,8 +1,6 @@
 import os
 from flask import Flask
 
-app = Flask(__name__)
-
 
 def create_app(test_config=None):
     # create and configure the app
@@ -25,8 +23,14 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    @app.route("/api")
+    @app.route("/")
     def api():
-        return "Hello"
+        return "Welcome to the Inventory Shopify Challenge"
+    
+    from . import db
+    db.init_app(app)
+    
+    from .v1 import api
+    app.register_blueprint(api.bp)
     
     return app
